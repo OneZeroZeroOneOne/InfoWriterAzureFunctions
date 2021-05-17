@@ -23,6 +23,7 @@ namespace InfoWriterAzureFunction
             log.LogInformation("C# HTTP trigger function processed a request.");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var deviceInfo = JsonConvert.DeserializeObject<DeviceInfo>(requestBody);
+            var a = Environment.GetEnvironmentVariable("databaseconnectionstring");
             var context = new PublicContext(Environment.GetEnvironmentVariable("databaseconnectionstring"));
             var deviceService = new DeviceService(context);
             var device = await deviceService.GetDevice(deviceInfo.compname, deviceInfo.osname);

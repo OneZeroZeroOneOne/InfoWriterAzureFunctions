@@ -2,6 +2,7 @@
 using InfoWriterAzureFunction.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -58,6 +59,12 @@ namespace InfoWriterAzureFunction.Sevices
             }
             await context.SaveChangesAsync();
             return device;
+        }
+
+        public async Task<List<StatusStorage>> GetOnlineHystoryDevice(string compname, string osname)
+        {
+            var hystory = await context.StatusStorage.Include(x => x.Device).Include(x => x.Status).Where(x => x.Device.ComputerName == compname && x.Device.Osname == osname).Take(50).ToListAsync();
+            return hystory;
         }
     }
 }
