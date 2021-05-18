@@ -63,7 +63,7 @@ namespace InfoWriterAzureFunction.Sevices
 
         public async Task<List<StatusStorage>> GetOnlineHystoryDevice(string compname, string osname)
         {
-            var hystory = await context.StatusStorage.Include(x => x.Device).Include(x => x.Status).Where(x => x.Device.ComputerName == compname && x.Device.Osname == osname).Take(50).ToListAsync();
+            var hystory = await context.StatusStorage.Include(x => x.Device).Include(x => x.Status).Where(x => x.Device.ComputerName == compname && x.Device.Osname == osname).Take(50).OrderByDescending(x => x.ChangeStatusTime).ToListAsync();
             return hystory;
         }
     }
